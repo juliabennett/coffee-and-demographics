@@ -1,0 +1,99 @@
+p {
+  font-size: 1.25em;
+  margin: 1em 0;
+}
+
+li {
+  font-size: 1.25em; 
+  margin: 7px 0px;
+}
+
+.navbar li {
+  margin: 10px 0;
+}
+
+.container {
+  max-width: 1024px;
+  width: 95%;
+  margin: 0 auto;
+  padding-bottom: 20px;
+  padding-left: 75px;
+  padding-right: 75px;
+}
+
+.relative {
+  position: relative;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.smallControls {
+  background-color: rgba(255,255,255,0.65);
+  position: absolute;
+  left: 25px;
+  top: 25px;
+  width: 275px;
+  padding: 25px;
+}
+
+.tab-content {
+  padding-bottom: 5em;
+}
+
+.footer {
+  background-color: #f8f8f8;
+  padding: 1em;
+  border-top: 1px solid #e7e7e7;
+}
+
+.footer > .container {
+  padding: 0;
+}
+
+.list-inline > li:not(:last-of-type) {
+  border-right: 1px solid #c7c7c7;
+}
+
+.list-inline > li {
+  padding: 0 15px;
+}
+
+a.link {
+  color: #777;
+}
+
+.text-heavy {
+  font-weight: 500;
+}
+
+#controls {
+  background-color: rgba(255,255,255,0.65);
+  position: absolute;
+  left: 40px;
+  top: 0px;
+  bottom: 0px;
+  width: 350px;
+  padding: 25px;
+}
+
+#distIntro.rChart {
+    width: 300px;
+    height: 225px;
+}
+
+#distribution.rChart,
+#mean2var.rChart {
+    width: 300px; 
+    height: 300px;
+}
+
+#byPopDens.rChart {
+    width: 500px;
+    height: 300px;
+}
+
+#byOtherVars.rChart,
+#popDensByVars.rChart {
+    width: 400px;
+    height: 1000px;
+}

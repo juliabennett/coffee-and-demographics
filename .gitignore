@@ -1,0 +1,10 @@
+*.csv
+PEP_2013_PEPANNRSIP.US12A/
+cafes.txt
+cities/
+counties/
+shiny/cityShapes/
+shiny/zipShapes/
+shiny/squares/
+water/
+zips/
