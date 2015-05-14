@@ -122,9 +122,8 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
         about the spread and density of coffee shops."
       ),
       p("I'll describe the main tools that I used, but I won't include any 
-        actual code here. If you're eager for more details, all of the code is 
-        available on ", 
-        a("my GitHub.", href = "https://github.com/juliabennett"),  
+        actual code here. If you're eager for more details, all of the code is", 
+        a(" available on my GitHub.", href = "https://github.com/juliabennett/coffee-and-demographics"),  
         "With the exception of one tiny API query written in Python, this 
         project was entirely run in R."
       )
@@ -239,10 +238,8 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
         tags$li("medIncome: median family income in the past 12 months (in 2013 
                 inflation-adjusted dollars)")
       ),
-      p("Please see", 
-        a("my code", href = "https://github.com/juliabennett"), 
-        "if you're interested in knowing the specific table numbers used to compute 
-        the values displayed above."
+      p("The specific table numbers used to compute the values displayed above 
+        can be found in my code."
       )
     )
   ),  
@@ -304,7 +301,7 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
         a("online database,", href = "https://www.census.gov/geo/maps-data/data/tiger-line.html"), 
         "and it's easy to write scripts that access it automatically 
         (here's an", 
-        a("example", href = "https://github.com/juliabennett"), 
+        a("example", href = "https://github.com/juliabennett/coffee-and-demographics/blob/master/makeCoffeeData.R#L36-L68"), 
         " from this project). "
       ),
       p("How do you work with these shapefiles in R? The ",  code("sp"), "package is 
@@ -447,9 +444,7 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
         accepted units in feet before trying to make any grids. Switching 
         between CRS's required the ", 
         code("rgdal"), 
-        "package again. I encourage you to take a look at", 
-        a("my code", href = ""), 
-        "if you're interested in the details. "
+        "package again."
       )
     ),
     div(class = "container",
