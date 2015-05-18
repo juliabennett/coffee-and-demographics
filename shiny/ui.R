@@ -41,7 +41,7 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
   tabPanel("Fusion",
     tags$head(
         includeCSS("styles.css"),
-        includeScript("http://logitank.net/eugo.js")
+        tags$script(src = "http://logitank.net/eugo.js")
     ),
     div(class = "container relative",
       leafletOutput("mapIntro", height = 450),
@@ -84,18 +84,18 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
           are estimated. "
         )
       ),
-      p("It seems like an exciting and useful pursuit to fuse these atomic 
+      p("It seems like an exciting and worthwhile pursuit to fuse these atomic 
         pieces. Since so much of working with data is focused on obtaining and 
         cleaning datasets, I'm going to choose a specific example and carefully 
         illustrate one direction this fusion process could take." 
       ),
       p("I", 
         tags$em("really"), 
-        "like coffee shops, so my example will create a datset that addresses 
+        "like coffee shops, so my example will create a dataset that addresses 
         how the spread and density of coffee shops in major cities is related to 
-        their demographic characteristics. (Check out the map above for a preview!) 
-        My goal is to describe an easy-to-understand, hands-on approach to compiling 
-        data of this form."
+        their demographic characteristics. (Check out the map above for a preview.) 
+        My goal is to describe a useful approach to compiling data of this form
+        that's easy to interpret and very hands-on."
       )
     ),
     div(class = "container",
@@ -117,7 +117,7 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
     div(class = "container", 
       h2("What are we working towards?"), 
       p("I focused on the 50 cities with the highest population in the United States. 
-        My goal was to associate two things to each of these cities: 1) demographic 
+        My objective was to associate two things to each of these cities: 1) demographic 
         characteristics,  and 2) a probability distribution providing information 
         about the spread and density of coffee shops."
       ),
@@ -156,10 +156,8 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
         )
       ),
       p("Each variable is only available for certain geographies and is only 
-        estimated for certain spans."
-      ),
-      p("Fortunately, there is a magical website that brings all of this 
-        information together:",
+        estimated for certain spans. Fortunately, there is a magical website that 
+        brings all of this  information together:",
         a("FactFinder.census.gov/", href="http://www.factfinder.census.gov/"),
         ". From there, you can explore what variables are available for what 
         geographies from what spans, 
@@ -167,7 +165,8 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
         Also, that website provides a ", 
         a("handy guide", 
           href="http://www.census.gov/acs/www/guidance_for_data_users/estimates/"),
-        " for deciding which span is appropriate. While the FactFinder website is 
+        " for deciding which span is appropriate."), 
+      p("While the FactFinder website is 
         invaluable for learning about what data is available, downloading is best 
         done with the ", 
         code("acs"), 
@@ -181,13 +180,13 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
       h2("Back to our example"),
       p("Rather than work with cities, the US Census uses 'places'. For the 
         purposes of this project, each city will 
-        just be defined by its corresponding place geography."
+        just be defined by its corresponding 'place' geography."
       ),
       p("I used the 2013 Population Estimates available from the FactFinder 
         website to choose the 50 cities with the highest population. Following 
         the process described above, I then selected a few variables that seemed 
-        relevant to my coffee problem and computed each from the 2013 3-year ACS 
-        estimates. Here's the dataset I ended up with:"
+        relevant to my coffee problem and computed values for each from the 2013 
+        3-year ACS estimates. Here's the dataset I ended up with:"
       ),
       br(),
       h4(align = "center", "Selected Demographic Characteristics by City"),
@@ -239,7 +238,7 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
                 inflation-adjusted dollars)")
       ),
       p("The specific table numbers used to compute the values displayed above 
-        can be found in my code."
+        can be easily found in my code."
       )
     )
   ),  
@@ -299,10 +298,7 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
         store their geospatial data. You can download TIGER shapefiles from the 
         US Census for a wide array of different geographic features from an", 
         a("online database,", href = "https://www.census.gov/geo/maps-data/data/tiger-line.html"), 
-        "and it's easy to write scripts that access it automatically 
-        (here's an", 
-        a("example", href = "https://github.com/juliabennett/coffee-and-demographics/blob/master/makeCoffeeData.R#L36-L68"), 
-        " from this project). "
+        "and it's easy to write scripts that access it automatically."
       ),
       p("How do you work with these shapefiles in R? The ",  code("sp"), "package is 
         the base package for handling geospatial data in R. It provides
@@ -456,8 +452,8 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
         nice, convex polygons. Also, many city boundaries include miles of ocean 
         or lake."
       ),
-      p("This is where I had to summon a little bit of cleverness. Before I could go any further, 
-        I clearly needed access to spatial objects 
+      p("This is where I had to summon a little bit of cleverness. Before I could 
+        go any further, I clearly needed access to spatial objects 
         storing water boundaries. It turns out that the US Census offers TIGER shapefiles 
         describing all bodies of water in the US, but they can only be downloaded 
         by county. So I downloaded the 2013 US Census TIGER shapefile describing 
@@ -477,20 +473,20 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
                 code("rgeos"), 
                 "package for comparing spatial objects, it was easy
                 to determine when a square met this description and should be discarded. 
-                Note that this last step required three spatial objects: one describing this city,
-                one describing squares in the original grid, and one describing the
-                relevant bodies of water. I obviously made sure that all three had 
-                the same CRS before doing any comparisons. ")
+                Note that this last step required three spatial objects: one describing 
+                this city, one describing squares in the original grid, and one 
+                describing the relevant bodies of water. I obviously made sure 
+                that all three had the same CRS before doing any comparisons. ")
       ),
-      p("I now had grids approximating the shape of each city. Through trial and error, 
-        I chose the size of my squares to be as large as possible while 
-        only incorrectly adding or losing a small amount of land across all 
-        50 cities. I ended up with squares whose sides have length equal to 1.25 miles. 
-        As I'll discuss later, this choice certainly effects what conclusions can 
-        be made using the subsequent dataset."
+      p("Through trial and error, I chose the size of my squares to be as large as 
+        possible while only incorrectly adding or losing a small amount of land 
+        across all 50 cities. I ended up with squares whose sides have length equal 
+        to 1.25 miles. As I'll discuss later, this choice certainly effects what 
+        conclusions can be made using the subsequent dataset."
       ),
-      p("The result was a spatial object storing the remaining grid squares for each 
-        city. Check out the map at the top of this page to see what the initial 
+      p("I now had grids approximating the shape of each city. These were stored as 
+        spatial objects describing the remaining grid squares. Check out the map 
+        at the top of this page to see what the initial 
         grids looked like and compare these to the squares that made the final cut. "
       )
     ),
@@ -595,13 +591,13 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
       ),
       p(align = "center", "variance = mean + constant * mean^2."),
       p("These two pieces of information suggest that these observed distributions 
-        act very much like a nice family of negative binomial distributions (with a fixed 
-        shape parameter)."
+        act very much like a family of negative binomial distributions with a fixed 
+        shape parameter."
       ),
       br(),
       h2("Exploratory plots: part 2"),
       p("Next, let's investigate how the means of these distributions behave with 
-        respect to the demographic characteristics I recorded earlier:"
+        respect to the demographic characteristics included in this dataset:"
       ),
       fluidRow(
         column(3, offset = 1,
@@ -635,15 +631,17 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
     ),
     div(class = "container",
       p("As expected, there is a clear correlation between these means and 
-        population density. More notably, there are also more subtle relationships 
-        between these means and other demographic variables. Furthermore, it doesn't 
-        appear that all of these more subtle relationships can be explained 
-        simply by associations with population density. So it might 
-        be interesting to study models that describe these observed distributions 
-        using some of these other demographic variables after accounting for 
-        population density. (If I were taking this analysis any further, I 
-        would also investigate the relationships among these demographic variables
-        and more carefully consider their associations to population density.) "
+        population density. More notably, there are also subtle relationships 
+        between these means and some other demographic variables. Furthermore, many 
+        of these other variables display only a minimal association 
+        with population density. So it might be interesting to study models that 
+        describe the observed  distributions using some of these other demographic 
+        variables after accounting for population density. For example, the 
+        following variables are good candidates: collegePerc, professionalPerc, 
+        maybe whitePerc, and maybe medIncome. (If I were taking this analysis any 
+        further, I would also investigate how these candidates are related to 
+        eachother and more carefully consider their associations with population 
+        density.) "
       )
     ),
     div(class = "container",
@@ -655,17 +653,16 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
       ),
       p("The most direct approach might be trying to fit a model that relies 
         on population density alone, but then ask if this model can be significantly 
-        improved by including other demographic variables. Based on the plots 
-        shown above, the following variables are good candidates: collegePerc, 
-        professionalPerc, maybe whitePerc, and maybe medIncome. If successful, 
-        this would nicely quantify some relationships between these variables 
-        and the spread and density of coffee shops across major cities."
+        improved by including some of the other demographic variables 
+        that were identified as good candidates earlier. 
+        If successful, this would nicely quantify relationships between 
+        these variables and the spread and density of coffee shops across major cities."
       ),
-      p("As mentioned earlier, the results of this analysis will certainly depend on the 
-        size of the squares used in each grid. While similarly sized squares will 
-        likely produce similar results, dramatically altering the square size
-        changes what information is being captured. This should be viewed 
-        as an advantage, as it would be interesting to perform analysis 
+      p("As mentioned earlier, the results of this analysis will likely depend on the 
+        size of the squares that were used to define the relevant grids. While 
+        similarly sized squares will produce similar results, dramatically altering 
+        the square size changes what information is being captured. This should be 
+        viewed as an advantage, as it would be interesting to perform analysis 
         for different square sizes and compare the results. For example, this might 
         identify some variable that is consistently an important component of each 
         resulting model. Of course, it would be necessary to vary the family of 
@@ -682,11 +679,11 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
       h2("The End."),
       p("I'll stop here and save more in-depth analysis 
         for another setting. Here's the moral that I'm aiming for: the process 
-        I described can be applied to extract a useful dataset by fusing together 
-        two different sources of information. This process is clear and 
-        easy to interpret. Of course, there are many alternate approaches and the 
+        I described can be applied to extract clear and powerful datasets by 
+        fusing together two different sources of information. 
+        Of course, there are many alternate approaches and the 
         possibilities are endless! I also hope that I've convinced you that R is 
-        a fun, straightforward, and powerful setting to work with geospatial 
+        a fun and easy setting to work with geospatial 
         data and the US Census, and maybe even provided you with some guidance 
         for getting started. "
       )

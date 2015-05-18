@@ -43,6 +43,22 @@ DownloadShapes <- function(url, exdir, layer) {
   }
 }
 
+MergePolys <- function(shapes1, shapes2) {
+  #Merges two SpatialPolygonsDataFrames that have the same CRS. 
+  #  Allows overlapping IDs and allows shapes1 to be NULL. 
+  #  Always assigns new IDs before merging. 
+  lowerID <- length(shapes1) + 1
+  upperID <- length(shapes1) + length(shapes2)
+  shapes2 <- spChFIDs(shapes2, as.character(lowerID:upperID))
+  if (is.null(shapes1)) {
+    shapes <- shapes2
+  } else {
+    shapes1 <- spChFIDs(shapes1, as.character(1:length(shapes1)))
+    shapes <- spRbind(shapes1, shapes2)
+  }
+  shapes
+}
+
 MakeCityPolys <- function(totalFPs) { 
   #Downloads 2013 US Census shapefiles describing every 'place' whose FIPS code 
   #  is an element of totalFPs. Reads these files to a single SpatialPolygonsDataFrame.
@@ -54,14 +70,7 @@ MakeCityPolys <- function(totalFPs) {
     layer <- paste0("tl_2013_", fp, "_place")
     DownloadShapes(url, "cities", layer)
     cityShapesNew <- readOGR("cities/", layer = layer) 
-    lowerID <- length(cityShapes) + 1
-    upperID <- length(cityShapes) + length(cityShapesNew)
-    cityShapesNew <- spChFIDs(cityShapesNew, as.character(lowerID:upperID)) #ensures unique IDs for merging
-    if (is.null(cityShapes)) {
-      cityShapes <- cityShapesNew
-    } else {
-      cityShapes <- spRbind(cityShapes, cityShapesNew)
-    }
+    cityShapes <- MergePolys(cityShapes, cityShapesNew)
   }
   indices <- paste0(cityShapes$STATEFP, cityShapes$PLACEFP) %in% totalFPs
   cityShapes[indices, ]
@@ -139,14 +148,7 @@ MakeWaterShapes <- function(countyFPs) {
     layer <-  paste0("tl_2013_", fp, "_areawater")
     DownloadShapes(url, "water", layer)
     waterNew <- readOGR("water", layer = layer)
-    lowerID <- length(water) + 1
-    upperID <- length(water) + length(waterNew)
-    waterNew <- spChFIDs(waterNew, as.character(lowerID:upperID)) #ensures unique IDs for merging
-    if (is.null(water)) {
-      water <- waterNew
-    } else {
-      water <- spRbind(water, waterNew)
-    }  
+    water <- MergePolys(water, waterNew) 
   }
   water
 }
@@ -197,14 +199,7 @@ MakeNiceGridsAcrossCities <- function(cityShapes, length) {
     cityShape <- cityShapes[i, ]
     gridPolyDF <- MakeNiceGrid(cityShape, length)
     gridPolyDF$placeName <- cityShape$NAMELSAD
-    lowerID <- length(squares) + 1
-    upperID <- length(squares) + length(gridPolyDF)
-    gridPolyDF <- spChFIDs(gridPolyDF, as.character(lowerID:upperID)) #ensures unique IDs for merging
-    if (is.null(squares)){
-      squares <- gridPolyDF
-    } else{
-      squares <- spRbind(squares, gridPolyDF)
-    } 
+    squares <- MergePolys(squares, gridPolyDF)
   }
   squares
 }
