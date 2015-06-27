@@ -4,22 +4,22 @@ library(rCharts)
 library(leaflet)
 library(dplyr)
 
-
-#save helpful variables
 census <- read.csv("census.csv", stringsAsFactors = FALSE)
 census <- arrange(census, cityName)
+
 cityNamesWithStates <- paste(census$cityName, census$stateAbb, sep = ", ")
 cityList <- list()
 for (i in 1:50){
   cityList[cityNamesWithStates[i]] <- census$cityName[i] 
 }
+
 censusVars <- c("cityName", "stateAbb", "hispOrLatPerc", "blackOrAfrAmPerc", "whitePerc", 
                 "asianPerc", "professionalPerc", "helpersPerc", "artsAndRecPerc", 
                 "notDrivePerc", "collegePerc", "medIncome")
 dataVars <- c("countInSquare", censusVars, "areaMiles", "popDens")
 
 
-#make UI
+# Make UI. 
 shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demographics", 
                    
   footer = div(class = "footer", 
@@ -41,7 +41,8 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
   tabPanel("Fusion",
     tags$head(
         includeCSS("styles.css"),
-        tags$script(src = "http://logitank.net/eugo.js")
+        tags$script(src = "http://logitank.net/eugo.js"),
+        tags$link(rel="icon", type="image/x-icon", href="favicon.ico")
     ),
     div(class = "container relative",
       leafletOutput("mapIntro", height = 450),
@@ -60,7 +61,10 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
     ),
     div(class = "container",  
       h2("Fusion"),
-      p("Two types of data that I really like: "),
+      p("When searching for wisdom from data, creating an interesting and 
+        appropriate dataset is an important foundational step. With this 
+        in mind, I'm going to choose a specific example and carefully illustrate 
+        one approach to  fusing two of my favorite types of data:"),
       tags$ol(
         tags$li(
           tags$strong("Location, location, location!"), 
@@ -84,18 +88,15 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
           are estimated. "
         )
       ),
-      p("It seems like an exciting and worthwhile pursuit to fuse these atomic 
-        pieces. Since so much of working with data is focused on obtaining and 
-        cleaning datasets, I'm going to choose a specific example and carefully 
-        illustrate one direction this fusion process could take." 
-      ),
       p("I", 
         tags$em("really"), 
         "like coffee shops, so my example will create a dataset that addresses 
         how the spread and density of coffee shops in major cities is related to 
-        their demographic characteristics. (Check out the map above for a preview.) 
-        My goal is to describe a useful approach to compiling data of this form
-        that's easy to interpret and very hands-on."
+        their demographic characteristics. Check out the map above for a preview."
+      ),
+      p("My goal is to thoroughly describe a method for compiling data of this form
+        that's effective, easy to interpret, and very hands-on. Along the way, I'll shamelessly take 
+        advantage of this opportunity to create fun, interactive maps."
       )
     ),
     div(class = "container",
@@ -445,8 +446,8 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
     ),
     div(class = "container",
       h2("Excluding bad squares"),
-      p("Next, it was necessary to exclude squares from these grids so that each 
-        resulting grid was mostly contained inside city boundaries and didn't 
+      p("Next, it was necessary to exclude squares from these grids so that the 
+        remaining squares were mostly contained inside city boundaries and didn't 
         include large bodies of water, all without losing too much land from each 
         city. Unfortunately, city and water boundaries certainly don't look like 
         nice, convex polygons. Also, many city boundaries include miles of ocean 
@@ -646,9 +647,8 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
     ),
     div(class = "container",
       h2("Conclusions"),
-      p("Based on our very brief exploratory analysis, it seems like this data is 
-        well-suited to a simple GLM (or some generalization if you really want to get 
-        to get fancy). Using only demographic characteristics, a GLM would attempt 
+      p("Based on our short exploratory analysis, this data is well-suited to 
+        a simple GLM . Using only demographic characteristics, a GLM would attempt 
         to model both the mean and shape of the distribution associated to each city."
       ),
       p("The most direct approach might be trying to fit a model that relies 
@@ -681,9 +681,9 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
         for another setting. Here's the moral that I'm aiming for: the process 
         I described can be applied to extract clear and powerful datasets by 
         fusing together two different sources of information. 
-        Of course, there are many alternate approaches and the 
+        Of course, there are many alternative approaches and the 
         possibilities are endless! I also hope that I've convinced you that R is 
-        a fun and easy setting to work with geospatial 
+        a fun and convenient setting to work with geospatial 
         data and the US Census, and maybe even provided you with some guidance 
         for getting started. "
       )

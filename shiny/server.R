@@ -2,7 +2,6 @@
 library(shiny)
 source('functions.R')
 
-#make server
 shinyServer(function(input, output) {
   
   output$mapIntro <- renderLeaflet({
