@@ -27,6 +27,29 @@ li {
   padding-left: 0;
 }
 
+.loading-tall, 
+.loading-short {
+  padding-top: 5em;
+  padding-left: 5em;
+  font-size: 2.5em;
+  position: absolute;
+  text-align: center;
+  animation: flash 2000ms linear infinite;
+  -webkit-animation: flash 2000ms linear infinite;
+  -moz-animation: flash 2000ms linear infinite;
+  -ms-animation: flash 2000ms linear infinite;
+}
+
+.loading-short {
+  padding-top: 3em;
+  padding-left: 4em;
+}
+
+@-webkit-keyframes flash { 50% { opacity: 0; } }
+@keyframes flash { 50% { opacity: 0; } }
+@-moz-keyframes flash { 50% { opacity: 0; } }
+@-ms-keyframes flash flash { 50% { opacity: 0; } }
+
 .smallControls {
   background-color: rgba(255,255,255,0.65);
   position: absolute;
@@ -71,7 +94,6 @@ a.link {
   position: absolute;
   left: 40px;
   top: 0px;
-  bottom: 0px;
   width: 350px;
   padding: 25px;
 }

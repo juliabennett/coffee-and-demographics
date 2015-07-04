@@ -15,7 +15,6 @@ intTests <- read.csv("intTests.csv", stringsAsFactors = FALSE)
 census <- read.csv("census.csv", stringsAsFactors = FALSE)
 cafes <- read.csv("cafes.csv")
 data <- read.csv("data.csv", stringsAsFactors = FALSE) 
-data <- data[order(-data$countInSquare),]
 
 FindIntersectingZips <- function(city) { 
   # Finds all ZIP codes that intersect a city. 

@@ -1,5 +1,6 @@
 
 library(shiny)
+library(leaflet)
 source('functions.R')
 
 shinyServer(function(input, output) {
@@ -7,7 +8,7 @@ shinyServer(function(input, output) {
   output$mapIntro <- renderLeaflet({
     MakeIntroMap(input$cityIntro)
   })
-  
+               
   output$distIntro <- renderChart({
     p <- PlotDist(input$cityIntro)
     p$set(dom = "distIntro", width = 300, height = 225)

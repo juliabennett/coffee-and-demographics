@@ -8,33 +8,6 @@ library(maptools)
 library(acs)
 library(jsonlite)
 
-DownloadShapes <- function(url, exdir, layer) {
-  # Checks if a shapefile exists and downloads it from the US Census if needed.
-  if (!file.exists(paste0(exdir, "/", layer, ".shp"))) {
-    file = "temporary.zip"
-    download.file(url, file, method = "curl")
-    unzip(file, exdir = exdir)
-    file.remove(file)
-  }
-}
-
-MergePolys <- function(shapes1, shapes2) {
-  # Merges two SpatialPolygonsDataFrames that have the same CRS. Allows shapes1 to be NULL.
-  
-  lowerID <- length(shapes1) + 1
-  upperID <- length(shapes1) + length(shapes2)
-  shapes2 <- spChFIDs(shapes2, as.character(lowerID:upperID))
-  
-  if (is.null(shapes1)) {
-    shapes <- shapes2
-  } else {
-    shapes1 <- spChFIDs(shapes1, as.character(1:length(shapes1)))
-    shapes <- spRbind(shapes1, shapes2)
-  }
-  
-  shapes
-}
-
 ChooseTopPopCities <- function(num = 50) {
   # Uses data from the 2013 US Census to find US 'places' with the largest population. 
   # Assumes that data from the following link has been saved with default options
@@ -60,6 +33,33 @@ ChooseTopPopCities <- function(num = 50) {
   cities$stateFP <- NULL # This column was only needed for merging.
   
   cities
+}
+
+DownloadShapes <- function(url, exdir, layer) {
+  # Checks if a shapefile exists and downloads it from the US Census if needed.
+  if (!file.exists(paste0(exdir, "/", layer, ".shp"))) {
+    file = "temporary.zip"
+    download.file(url, file, method = "curl")
+    unzip(file, exdir = exdir)
+    file.remove(file)
+  }
+}
+
+MergePolys <- function(shapes1, shapes2) {
+  # Merges two SpatialPolygonsDataFrames that have the same CRS. Allows shapes1 to be NULL.
+  
+  lowerID <- length(shapes1) + 1
+  upperID <- length(shapes1) + length(shapes2)
+  shapes2 <- spChFIDs(shapes2, as.character(lowerID:upperID))
+  
+  if (is.null(shapes1)) {
+    shapes <- shapes2
+  } else {
+    shapes1 <- spChFIDs(shapes1, as.character(1:length(shapes1)))
+    shapes <- spRbind(shapes1, shapes2)
+  }
+  
+  shapes
 }
 
 MakeCityPolys <- function(totalFPs) { 

@@ -31,6 +31,10 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
                      href = "mailto:juliacbennett@gmail.com") 
                  ),
                  tags$li(class = "inset-h", 
+                         a(class = "link", "juliaben.net/t", 
+                           href = "http://juliaben.net/t/") 
+                 ),
+                 tags$li(class = "inset-h", 
                    a(class = "link", "github.com/juliabennett", 
                      href = "https://github.com/juliabennett")
                  )
@@ -41,10 +45,10 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
   tabPanel("Fusion",
     tags$head(
         includeCSS("styles.css"),
-        tags$script(src = "http://logitank.net/eugo.js"),
-        tags$link(rel="icon", type="image/x-icon", href="favicon.ico")
+        tags$script(src = "http://logitank.net/eugo.js")
     ),
     div(class = "container relative",
+      absolutePanel(class="container loading-tall", p("Loading...")),
       leafletOutput("mapIntro", height = 450),
       absolutePanel(id = "controls",
         h2("Finding coffee..."),
@@ -56,12 +60,12 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
         br(),
         showOutput("distIntro", "polycharts")
       ),
-      helpText(align = "right", "(If an interactive map doesn't eventually appear 
-              above, please refresh!)")
+      helpText(align = "right", "*If this interactive map looks broken, please refresh and 
+                                allow it to load before switching tabs.")
     ),
     div(class = "container",  
       h2("Fusion"),
-      p("When searching for wisdom from data, creating an interesting and 
+      p("When searching for insight from data, creating an interesting and 
         appropriate dataset is an important foundational step. With this 
         in mind, I'm going to choose a specific example and carefully illustrate 
         one approach to  fusing two of my favorite types of data:"),
@@ -254,6 +258,7 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
       ),
       br(),
       div(class = "relative", 
+          absolutePanel(class="container loading-short", p("Loading...")),
           leafletOutput("mapZips", height = 350),
           absolutePanel(class = "smallControls", 
                         h3("City Boundaries, ZIP Code Boundaries, & Coffee Shops"),
@@ -264,8 +269,8 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
                         )
           )
       ),
-      helpText(align = "right", "(If an interactive map doesn't eventually appear 
-               above, please refresh!)")
+      helpText(align = "right", "*If this interactive map looks broken, please refresh and 
+                                allow it to load before switching tabs.")
     ),
     div(class = "container",
       h2("Shapefiles in R"), 
@@ -321,6 +326,7 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
       ),
       br(),
       div(class = "relative",
+        absolutePanel(class="container loading-short", p("Loading...")),
         leafletOutput("mapCities", height = 350),
         absolutePanel(class = "smallControls", 
           h3("City Boundaries"),
@@ -331,8 +337,8 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
           )
         )
       ), 
-      helpText(align = "right", "(If an interactive map doesn't eventually appear 
-              above, please refresh!)")
+      helpText(align = "right", "*If this interactive map looks broken, please refresh and 
+                                 allow it to load before switching tabs.")
     ),
     div(class = "container",
       h2("Where are the coffee shops?"),
@@ -394,6 +400,7 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
       ),
       br(),
       div(class = "relative",
+        absolutePanel(class="container loading-short", p("Loading...")),
         leafletOutput("mapGrids", height = 350),
         absolutePanel(class = "smallControls", width = 300, 
           h3("Grids & Coffee Shops"),
@@ -404,8 +411,8 @@ shinyUI(navbarPage(h4("Coffee & Demographics"), windowTitle = "Coffee & Demograp
           )
         )
       ),
-      helpText(align = "right", "(If an interactive map doesn't eventually appear 
-              above, please refresh!)"),
+      helpText(align = "right", "*If this interactive map looks broken, please refresh and 
+                                allow it to load before switching tabs."),
       br(),
       h4(align = "center", "Coffee Shop Counts by Square with Selected City Demographics"),
       sidebarLayout(
